@@ -5,7 +5,7 @@ const MAZE_SIZE = 31;
 const EMPTY = 2;
 const UPDATE_INTERVAL = 30;
 const PLAYER_RADIUS = 0.2;
-
+const RESTITUTION = 0.8;
 
 var mazeGen = require('./maze/RecursiveMazeGenerator');
 var maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
@@ -104,16 +104,16 @@ function tick(players, maze) {
             currPlayer.y = nextY;
         }
         else if(valid(currPlayer.x, nextY, maze)){
-            currPlayer.velX = 0;
+            currPlayer.velX = -currPlayer.velX * RESTITUTION;
             currPlayer.y = nextY;
         }
         else if(valid(nextX, currPlayer.y, maze)){
-            currPlayer.velY = 0;
+            currPlayer.velY = -currPlayer.velY * RESTITUTION;
             currPlayer.x = 0;
         }
         else{
-            currPlayer.velX = 0;
-            currPlayer.velY = 0;
+            currPlayer.velX = -currPlayer.velX * RESTITUTION;
+            currPlayer.velY = -currPlayer.velY * RESTITUTION;
         }
     }
 }
