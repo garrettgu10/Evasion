@@ -1,5 +1,6 @@
-var socket = io.connect('/display');
+var socket = io('/display');
 
-io.on('updatePlayers', (players) => {
+socket.on('updatePlayers', (players) => {
     draw_players(playerCanvas, players);
+    console.log(players);
 })

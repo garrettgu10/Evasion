@@ -34,24 +34,24 @@ const TEST_ARRAY = [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     [ 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 0, 2, 2, 2, 0, 2, 0, 2, 0 ],
     [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] ];
 
-const TEST_PLAYERS = [
-    {
+const TEST_PLAYERS = {
+    key1: {
         x: 1,
         y: 0.5,
         color: "#ff0000"
     },
-    {
+    key2: {
         x: 2.5, 
         y: 3,
         color: "#00ff00"
     }
-]
+}
 
 const PLAYER_MAX_X = 100;
 const PLAYER_MAX_Y = 100;
 const PLAYER_RADIUS = 10;
 
-const GRAY_COLOR = "#BFBFBF";
+const GRAY_COLOR = "rgba(0, 0, 0, 0.2)";
 const BLACK_COLOR = "#000000";
 
 var blockHeight, blockWidth;
@@ -120,7 +120,8 @@ function draw_players(canvas, players){
     var canvasHeight = canvas.height;
     var canvasWidth = canvas.width;
     //draw players
-    for(var player of players) {
+    for(var key in players) {
+        var player = players[key];
         var x = player.x * blockWidth;
         var y = player.y * blockHeight;
         

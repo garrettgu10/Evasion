@@ -1,5 +1,7 @@
 var socket = io('/player');
 
+socket.emit('update', {accX: 2, accY: 2});
+
 var updateNeeded = true;
 var coordsDiv = document.getElementById('coords');
 window.addEventListener("deviceorientation", (event) => {
