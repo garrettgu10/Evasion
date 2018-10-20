@@ -1,5 +1,6 @@
 # Evasion
 HackTX project
+©2018 Co. GEBAA 
 
 WEW QUARTERBROWN
 
@@ -17,7 +18,8 @@ Players move around by tilting their phones in the direction they want to move. 
 
 
 USELESS FORMAL JUNK
-Evasion is the property of Co. GEBBA and may not be copied, editted, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #familyfriendly, #puffysucks, #learningJS, and #bestgame2018_october_20
+Evasion is the property of Co. GEBAA and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #familyfriendly, #puffysucks,
+#learningJS, and #bestgame2018_october_20
 
 
 FUTURE ADDITIONS
