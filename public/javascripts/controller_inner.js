@@ -1,6 +1,6 @@
 var socket = io('/player');
 
-socket.emit('update', {accX: 2, accY: 2});
+socket.emit('updateAcceleration', {accX: 2, accY: 2});
 
 var updateNeeded = true;
 var coordsDiv = document.getElementById('coords');
@@ -17,7 +17,7 @@ window.addEventListener("deviceorientation", (event) => {
 
     updateCanvas(accX, accY);
 
-    socket.emit('update', {accX, accY});
+    socket.emit('updateAcceleration', {accX: accX, accY: accY});
 
     setTimeout(() => {
         updateNeeded = true;
