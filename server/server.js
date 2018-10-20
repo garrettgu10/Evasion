@@ -1,7 +1,7 @@
 const MAX_SPEED = 1;
 const MIN_SPEED = -1;
 const UPDATE_RATE = 100; //Milliseconds
-const MAZE_SIZE = 101;
+const MAZE_SIZE = 31;
 const EMPTY = 2;
 const UPDATE_INTERVAL = 500;
 
@@ -34,9 +34,11 @@ function setupSockets(server) {
 
     control_sock.on('connection', function(socket) {
         console.log('new controller ' + socket.id);
+        var spotToUse = emptySpots.pop();
+
         players[socket.id] = {
-            x: emptySpots[currSpot][0] + 0.5, 
-            y: emptySpots[currSpot][1] + 0.5, 
+            x: spotToUse[0] + 0.5, 
+            y: spotToUse[1] + 0.5, 
             velX:0, velY:0, 
             accX:0, accY:0
         }
@@ -63,10 +65,10 @@ function shuffleArray(array) {
 function getEmptySpots(maze){
     let emptySpots = [];
 
-    for(let i = 1; i < maze.length - 1; i++){
-        for(let j = 1; j < maze[0].length - 1; j++){
+    for(let i = 1; i < maze.length - 1; i += 2){
+        for(let j = 1; j < maze[0].length - 1; j += 2){
             if(maze[i][j] === EMPTY)
-                emptySpots.push([i, j]);
+                emptySpots.push([(i - 1) / 2, (j - 1) / 2]);
         }
     }
 
