@@ -4,6 +4,7 @@ const UPDATE_RATE = 100; //Milliseconds
 const MAZE_SIZE = 31;
 const EMPTY = 2;
 const UPDATE_INTERVAL = 500;
+const PLAYER_RADIUS = 0.2;
 
 var mazeGen = require('./maze/RecursiveMazeGenerator');
 var maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
@@ -77,6 +78,40 @@ function getEmptySpots(maze){
     return emptySpots;
 }
 
+function tick(players, maze) {
+    for(let key in players){
+        currPlayer = players[key];
+        currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 1000);
+        currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 1000);
+
+        let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
+        let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;
+
+        if(valid(nextX, nextY, maze)){
+            currPlayer.x = nextX;
+            currPlayer.y = nextY;
+        }
+        else if(valid(currPlayer.x, nextY, maze)){
+            currPlayer.velX = 0;
+            currPlayer.y = nextY;
+        }
+        else if(valid(nextX, currPlayer.y, maze)){
+            currPlayer.velY = 0;
+            currPlayer.x = 0;
+        }
+    }
+}
+
+function valid(x, y, maze){
+    let floorX = Math.floor(x);
+    let floorY = Math.floor(y);
+
+    //TODO
+}
+
+function boundSpeed(v){
+    return Math.max(Math.min(v, MAX_SPEED), MIN_SPEED);
+}
 /*
 let emptySpots = getEmptySpots(maze);
 let currSpot = 0;
