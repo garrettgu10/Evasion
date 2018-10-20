@@ -1,24 +1,24 @@
 function UnionFind(size) {
-    this.parents = Array(size);
-    this.size = Array(size);
+    this.parents = new Array(size);
+    this.size = new Array(size);
 
     for(var i = 0; i < size; i++){
-        parents[i] = i;
-        size[i] = 1;
+        this.parents[i] = i;
+        this.size[i] = 1;
     }
 }
 
-var proto = UnionFind.prototype
+var proto = UnionFind.prototype;
 
 proto.find = function(x){
     if(this.parents[x] === x)
         return x;
 
     var ret = this.find(this.parents[x]);
-    parents[x] = ret;
+    this.parents[x] = ret;
 
     return ret;
-}
+};
 
 proto.union = function(x, y){
     var px = this.find(this.parents[x]);
@@ -27,16 +27,16 @@ proto.union = function(x, y){
     if(px === py)
         return false;
 
-    if(size[px] < size[py]){
-        parents[px] = py;
-        size[py] += size[px];
+    if(this.size[px] < this.size[py]){
+        this.parents[px] = py;
+        this.size[py] += this.size[px];
     }
     else{
-        parents[py] = px;
-        size[px] += size[py];
+        this.parents[py] = px;
+        this.size[px] += this.size[py];
     }
 
     return true;
-}
+};
 
 module.exports = UnionFind;

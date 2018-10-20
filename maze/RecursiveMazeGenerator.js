@@ -1,9 +1,10 @@
 const WALL = 0;
 const GRAY = 1;
 const EMPTY = 2;
+var UnionFind = require("./UnionFind.js");
+
 //Pass odd number as rows and columns
 function mazeGenerator(rows, columns) {
-    var UnionFind = require('../UnionFind.js');
     var maze = new Array(rows);
     //Initializes maze to all walls around border and all walls at even indexes of rows/columns
     for(let i = 0; i < rows; i++){
@@ -24,7 +25,7 @@ function mazeGenerator(rows, columns) {
     }
 
     var smallRows = (rows - 1) / 2;
-    var smallCols = (cols - 1) / 2;
+    var smallCols = (columns - 1) / 2;
 
     var numComponents = smallRows * smallCols;
     var UF = new UnionFind(numComponents);
@@ -33,13 +34,13 @@ function mazeGenerator(rows, columns) {
     var currWall = 0;
     for(let i = 1; i < rows - 1; i++){
         if(i % 2 === 1){
-            for(let j = 2; j < cols - 1; j += 2){
+            for(let j = 2; j < columns - 1; j += 2){
                 wallSet[currWall] = [i, j];
                 currWall++;
             }
         }
         else{
-            for(let j = 1; j < cols - 1; j += 2){
+            for(let j = 1; j < columns - 1; j += 2){
                 wallSet[currWall] = [i, j];
                 currWall++;
             }
@@ -88,3 +89,6 @@ function shuffleArray(array) {
         array[j] = temp;
     }
 }
+
+console.log(mazeGenerator(21 , 21));
+module.exports = mazeGenerator;
