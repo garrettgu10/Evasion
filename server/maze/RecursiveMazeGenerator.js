@@ -1,6 +1,8 @@
 const WALL = 0;
 const GRAY = 1;
 const EMPTY = 2;
+const PROPORTION_GRAY = 0.1;
+
 var UnionFind = require("./UnionFind.js");
 
 //Pass odd number as rows and columns
@@ -74,6 +76,13 @@ function mazeGenerator(rows, columns) {
         }
     }
 
+    for(let i = 1; i < rows - 1; i++){
+        for(let j = 1; j < columns - 1; j++){
+            if(maze[i][j] === WALL && Math.random() < PROPORTION_GRAY)
+                maze[i][j] = GRAY;
+        }
+    }
+
     return maze;
 }
 
@@ -90,5 +99,5 @@ function shuffleArray(array) {
     }
 }
 
-console.log(mazeGenerator(21 , 21));
+//console.log(mazeGenerator(31, 25));
 module.exports = mazeGenerator;
