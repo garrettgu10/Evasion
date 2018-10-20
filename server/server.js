@@ -10,7 +10,7 @@ var players = {};
 
 function setup(app) {
     app.use('/new_game', function(req, res) {
-        maze = mazeGen(MAZE_SIZE, MAX_SIZE);
+        maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
         players = {};
     });
 
