@@ -6,10 +6,20 @@
             body {
                 background-color: black;
             }
+            canvas {
+                position:absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                background-color: white;
+            }
         </style>
     </head>
     <body>
+        <canvas id="canvas"></canvas>
         <div id = "coords" style="color: #FFFFFF">(0, 0)</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
         <script src="javascripts/controller_inner.js"></script>
     </body>
 </html>

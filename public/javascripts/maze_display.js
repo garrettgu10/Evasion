@@ -26,13 +26,13 @@ const TEST_ARRAY = [ [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 
 const TEST_PLAYERS = [
     {
-        x: 50,
-        y: 50,
+        x: 1,
+        y: 0.5,
         color: "#ff0000"
     },
     {
-        x: 25, 
-        y: 25,
+        x: 2.5, 
+        y: 3,
         color: "#00ff00"
     }
 ]
@@ -44,14 +44,17 @@ const PLAYER_RADIUS = 10;
 const GRAY_COLOR = "#BFBFBF";
 const BLACK_COLOR = "#000000";
 
-function draw_maze(context, maze, players = []){
+var blockHeight, blockWidth;
+
+function draw_maze(canvas, maze){
+    var context = canvas.getContext('2d');
     var width = maze.length;
     var height = maze[0].length;
     var canvasHeight = canvas.height;
     var canvasWidth = canvas.width;
 
-    var blockHeight = canvasHeight / Math.floor(height/2);
-    var blockWidth = canvasWidth / Math.floor(width/2);
+    blockHeight = canvasHeight / Math.floor(height/2);
+    blockWidth = canvasWidth / Math.floor(width/2);
 
     context.lineWidth = WALL_WIDTH;
     
@@ -60,7 +63,6 @@ function draw_maze(context, maze, players = []){
     for(var x = 0; x < width; x+=2){
         for(var y = 1; y < height; y+=2){
             if(maze[x][y] === EMPTY){
-                console.log("no wall at " + x + ", " + y);
                 continue;
             }
             context.strokeStyle= (maze[x][y] === GRAY) ? GRAY_COLOR : BLACK_COLOR;
@@ -72,7 +74,6 @@ function draw_maze(context, maze, players = []){
             context.beginPath();
             context.moveTo(lineX, lineStartY);
             context.lineTo(lineX, lineEndY);
-            console.log("Hi");
             // context.moveTo(lineStartY, lineX);
             // context.lineTo(lineEndY, lineX);
             context.stroke();
@@ -84,7 +85,6 @@ function draw_maze(context, maze, players = []){
     for(var y = 0; y < width; y+=2){
         for(var x = 1; x < height; x+=2){
             if(maze[x][y] === EMPTY){
-                console.log("no wall at " + x + ", " + y);
                 continue;
             }
             context.strokeStyle= (maze[x][y] === GRAY) ? GRAY_COLOR : BLACK_COLOR;
@@ -101,11 +101,17 @@ function draw_maze(context, maze, players = []){
             context.stroke();
         }
     }
+}
 
+function draw_players(canvas, players){
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    var canvasHeight = canvas.height;
+    var canvasWidth = canvas.width;
     //draw players
     for(var player of players) {
-        var x = player.x / PLAYER_MAX_X * canvasWidth;
-        var y = player.y / PLAYER_MAX_Y * canvasHeight;
+        var x = player.x * blockWidth;
+        var y = player.y * blockHeight;
         
         var rad = PLAYER_RADIUS;
         var color = player.color || "#000000";
@@ -118,9 +124,18 @@ function draw_maze(context, maze, players = []){
     }
 }
 
-
-console.log('loaded');
 var canvas = document.getElementById("maze_canvas");
-console.log(canvas);
+var playerCanvas = document.getElementById("player_canvas");
 
-draw_maze(canvas.getContext('2d'), TEST_ARRAY , TEST_PLAYERS);
+fetch('/get_maze').then((response) => {
+    response.json();
+}).then((maze) => {
+    if(maze){
+        draw_maze(canvas, maze);
+    }else{
+        console.error("invalid maze: " + JSON.stringify(maze));
+    }
+}).catch(console.log);
+
+//draw_maze(canvas, TEST_ARRAY);
+draw_players(playerCanvas, TEST_PLAYERS);

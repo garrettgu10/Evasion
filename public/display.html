@@ -2,9 +2,19 @@
 <html>
     <head>
         <title>test maze</title>
+        <style>
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        </style>
     </head>
     <body>
         <canvas id="maze_canvas" width = "800" height = "800"></canvas>
+        <canvas id="player_canvas" width = "800" height = "800"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
         <script src="javascripts/maze_display.js"></script>
+        <script src="javascripts/maze_socket.js"></script>
     </body>
 </html>
