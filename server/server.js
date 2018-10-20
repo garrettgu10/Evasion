@@ -1,6 +1,6 @@
 const MAX_SPEED = 1;
 const MIN_SPEED = -1;
-const UPDATE_RATE = 100; //Milliseconds
+const UPDATE_RATE = 30; //Milliseconds
 const MAZE_SIZE = 31;
 const EMPTY = 2;
 const UPDATE_INTERVAL = 30;
@@ -47,8 +47,8 @@ function setupSockets(server) {
 
         socket.on('updateAcceleration', function(obj) {
             var {accX, accY} = obj;
-            players[socket.id].accX = accX;
-            players[socket.id].accY = accY;
+            players[socket.id].accX = boundSpeed(accX);
+            players[socket.id].accY = boundSpeed(accY);
         });
 
         socket.on('disconnect', function(){
@@ -111,6 +111,10 @@ function tick(players, maze) {
             currPlayer.velY = 0;
             currPlayer.x = 0;
         }
+        else{
+            currPlayer.velX = 0;
+            currPlayer.velY = 0;
+        }
     }
 }
 
@@ -118,7 +122,21 @@ function valid(x, y, maze){
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
 
-    //TODO
+    let expX = floorX * 2 + 1;
+    let expY = floorY * 2 + 1;
+
+    if(expX < 0 || expY < 0) return false;
+    if(expX >= maze.length || expY >= maze[0].length) return false;
+
+    //If left side has a wall and goes across                      OR    right side has a wall and goes across
+    if((maze[expX][expY-1] === WALL && x - floorX < PLAYER_RADIUS) || (maze[expX][expY+1] === WALL && floorX + 1 - x < PLAYER_RADIUS)) {
+        return false;
+    }
+    if((maze[expX-1][expY] === WALL && y - floorY < PLAYER_RADIUS) || (maze[expX+1][expY] === WALL && floorY + 1 - y < PLAYER_RADIUS)) {
+        return false;
+    }
+
+    return true;
 }
 
 function boundSpeed(v){
