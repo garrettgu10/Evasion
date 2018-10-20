@@ -41,13 +41,18 @@ function setupSockets(server) {
             y: spotToUse[1] + 0.5, 
             velX:0, velY:0, 
             accX:0, accY:0
-        }
+        };
 
         socket.on('updateAcceleration', function(obj) {
             var {accX, accY} = obj;
             players[socket.id].accX = accX;
             players[socket.id].accY = accY;
-        })
+        });
+
+        socket.on('disconnect', function(){
+            console.log("player disconnected " + socket.id);
+            delete players[socket.id];
+        });
     });
 
     setInterval(() => {

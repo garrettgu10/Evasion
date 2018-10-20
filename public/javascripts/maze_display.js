@@ -21,6 +21,7 @@ const PLAYER_MAX_Y = 100;
 const PLAYER_RADIUS = 10;
 
 const GRAY_COLOR = "rgba(0, 0, 0, 0.2)";
+const SOLID_GRAY = "#A0A0A0";
 const BLACK_COLOR = "#000000";
 
 var blockHeight, blockWidth;
@@ -104,7 +105,7 @@ function draw_players(canvas, players){
 
         context.lineWidth = 4;
         context.beginPath();
-        context.strokeStyle=GRAY_COLOR;
+        context.strokeStyle=SOLID_GRAY;
         context.moveTo(x, y);
         context.lineTo(x + player.accX * blockWidth, y + player.accY * blockWidth);
         context.stroke();
