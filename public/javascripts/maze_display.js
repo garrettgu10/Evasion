@@ -58,6 +58,7 @@ var blockHeight, blockWidth;
 
 function draw_maze(canvas, maze){
     var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
     var width = maze.length;
     var height = maze[0].length;
     var canvasHeight = canvas.height;
@@ -137,15 +138,26 @@ function draw_players(canvas, players){
 var canvas = document.getElementById("maze_canvas");
 var playerCanvas = document.getElementById("player_canvas");
 
-fetch('/get_maze').then((response) => {
-    response.json();
-}).then((maze) => {
-    if(maze){
-        draw_maze(canvas, maze);
-    }else{
-        console.error("invalid maze: " + JSON.stringify(maze));
-    }
-}).catch(console.log);
+
+function updateMaze() {
+    fetch('/get_maze').then((response) => {
+        return response.json();
+    }).then((maze) => {
+        if(maze){
+            draw_maze(canvas, maze);
+        }else{
+            console.error("invalid maze: " + JSON.stringify(maze));
+        }
+    }).catch(console.log);
+}
+
+function requestNewGame() {
+    fetch('/new_game').then(() => {
+        updateMaze();
+    })
+}
+
+updateMaze();
 
 //draw_maze(canvas, TEST_ARRAY);
 draw_players(playerCanvas, TEST_PLAYERS);

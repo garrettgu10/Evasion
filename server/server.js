@@ -3,37 +3,48 @@ const MIN_SPEED = -1;
 const UPDATE_RATE = 100; //Milliseconds
 const MAZE_SIZE = 101;
 const EMPTY = 2;
+const UPDATE_INTERVAL = 500;
 
 var mazeGen = require('./maze/RecursiveMazeGenerator');
 var maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
+var emptySpots = getEmptySpots(maze);
 var players = {};
 
 function setup(app) {
     app.use('/new_game', function(req, res) {
-        maze = mazeGen(MAZE_SIZE, MAX_SIZE);
+        maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
+        var emptySpots = getEmptySpots(maze);
         players = {};
+        res.json({status: 'ok'});
     });
 
     app.use('/get_maze', function (req, res) {
        res.json(maze);
     });
-
-    setupSockets(app);
 }
 
-function setupSockets(app) {
-    let http = require('http').Server(app);
-    let io = require('socket.io');
+function setupSockets(server) {
+    let io = require('socket.io').listen(server);
     let display_sock = io.of('/display');
-    let control_sock = io.of('/controller');
-
+    let control_sock = io.of('/player');
+    
     display_sock.on('connection', function(socket) {
         console.log('new display ' + socket.id);
     });
 
     control_sock.on('connection', function(socket) {
         console.log('new controller ' + socket.id);
-    })
+        players[socket.id] = {
+            x: emptySpots[currSpot][0] + 0.5, 
+            y: emptySpots[currSpot][1] + 0.5, 
+            velX:0, velY:0, 
+            accX:0, accY:0
+        }
+    });
+
+    setInterval(() => {
+        display_sock.emit('updatePlayers', players);
+    }, UPDATE_INTERVAL);
 }
 
 /**
@@ -73,4 +84,4 @@ for(let key in players){
 }
 */
 
-module.exports = setup;
+module.exports = {setupRest: setup, setupSockets: setupSockets};
