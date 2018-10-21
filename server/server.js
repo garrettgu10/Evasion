@@ -149,8 +149,8 @@ function valid(x, y, maze){
         return false;
     }
 
-    const ar = { - 2;2, -1, -1, 1, 1, 2, 2};
-    const ar2 = { - 1;2, 2, -2, 2, -1, 1};
+    const ar = [ -2, -2, -1, -1, 1, 1, 2, 2];
+    const ar2 = [ -1, 1, -2, 2, -2, 2, -1, 1];
 
     for(var i = 0; i < 8; i++) {
         var newX = expX + ar[i];
