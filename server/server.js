@@ -149,14 +149,21 @@ function valid(x, y, maze){
         return false;
     }
 
-    const ar = [ -2, -2, -1, -1, 1, 1, 2, 2];
-    const ar2 = [ -1, 1, -2, 2, -2, 2, -1, 1];
+    //Corners
+    if((expY - 2 > 0 && maze[expX-1][expY-2] !== EMPTY && x-floorX < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expY + 2 < maze[0].length && (maze[expX-1][expY+2] !== EMPTY) && x-floorX < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS)) {
+        return false;
+    }
 
-    for(var i = 0; i < 8; i++) {
-        var newX = expX + ar[i];
-        var newY = expY + ar2[i];
-        if(newX > 0 && newX < maze.length && newY > 0 && newY < maze[0].length && maze[newX][newY] !== EMPTY)
-            return false;
+    if((expY - 2 > 0 && maze[expX+1][expY-2] !== EMPTY && floorX+1-x < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expY + 2 < maze[0].length && (maze[expX+1][expY+2] !== EMPTY) && floorX+1-x < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS)) {
+        return false;
+    }
+
+    if((expX - 2 > 0 && maze[expX-2][expY-1] !== EMPTY && x-floorX < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expX - 2 > 0 && (maze[expX-2][expY+1] !== EMPTY && x-floorX < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS))) {
+        return false;
+    }
+
+    if((expX + 2 < maze.length && maze[expX+2][expY-1] !== EMPTY && floorX+1-x < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expX + 2 < maze.length && (maze[expX+2][expY+1]!== EMPTY && floorX+1-x < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS))) {
+        return false;
     }
 
     return true;
