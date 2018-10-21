@@ -102,12 +102,12 @@ function getColor(id) {
     }
 }
 
-var io;
+var io, display_sock, control_sock;
 
 function setupSockets(server) {
     io = sio.listen(server);
-    let display_sock = io.of('/display');
-    let control_sock = io.of('/player');
+    display_sock = io.of('/display');
+    control_sock = io.of('/player');
     
     display_sock.on('connection', function(socket) {
         console.log('new display ' + socket.id);
@@ -255,6 +255,8 @@ function playerCollision(currPlayer, players) {
         if(nonChaserCount === 1) {
             console.log("winner: " + nonChaserId);
             socketHandlers[nonChaserId].emit('win');
+            display_sock.emit('gameOver');
+
             gameStarted = false;
         }
     }
