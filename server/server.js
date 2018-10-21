@@ -163,6 +163,16 @@ function valid(x, y, maze){
         return false;
     }
 
+    const ar = { - 2;2, -1, -1, 1, 1, 2, 2};
+    const ar2 = { - 1;2, 2, -2, 2, -1, 1};
+
+    for(var i = 0; i < 8; i++) {
+        var newX = expX + ar[i];
+        var newY = expY + ar2[i];
+        if(newX > 0 && newX < maze.length && newY > 0 && newY < maze[0].length && maze[newX][newY] !== EMPTY)
+            return false;
+    }
+
     return true;
 }
 
