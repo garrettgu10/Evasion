@@ -180,28 +180,43 @@ function valid(x, y, maze){
     if(expX < 0 || expY < 0) return false;
     if(expX >= maze.length || expY >= maze[0].length) return false;
 
+    var b1 = x - floorX < PLAYER_RADIUS;
+    var b2 = floorX + 1 - x < PLAYER_RADIUS;
+    var b3 = y - floorY < PLAYER_RADIUS;
+    var b4 = floorY + 1 - y < PLAYER_RADIUS;
+
     //If left side has a wall and goes across                      OR    right side has a wall and goes across
-    if((maze[expX][expY-1] === WALL && y - floorY < PLAYER_RADIUS) || (maze[expX][expY+1] === WALL && floorY + 1 - y < PLAYER_RADIUS)) {
+    if((maze[expX][expY-1] === WALL && b3) || (maze[expX][expY+1] === WALL && b4)) {
         return false;
     }
-    if((maze[expX-1][expY] === WALL && x - floorX < PLAYER_RADIUS) || (maze[expX+1][expY] === WALL && floorX + 1 - x < PLAYER_RADIUS)) {
+    if((maze[expX-1][expY] === WALL && b1) || (maze[expX+1][expY] === WALL && b2)) {
         return false;
     }
-    
+
     //Corners
-    if((expY - 2 > 0 && maze[expX-1][expY-2] !== EMPTY && x-floorX < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expY + 2 < maze[0].length && (maze[expX-1][expY+2] !== EMPTY) && x-floorX < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS)) {
-        return false;
-    }
 
-    if((expY - 2 > 0 && maze[expX+1][expY-2] !== EMPTY && floorX+1-x < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expY + 2 < maze[0].length && (maze[expX+1][expY+2] !== EMPTY) && floorX+1-x < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS)) {
-        return false;
-    }
 
-    if((expX - 2 > 0 && maze[expX-2][expY-1] !== EMPTY && x-floorX < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expX - 2 > 0 && (maze[expX-2][expY+1] !== EMPTY && x-floorX < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS))) {
-        return false;
-    }
+    //    _|   |_
+    //    _  u  _
+    //     |   |
 
-    if((expX + 2 < maze.length && maze[expX+2][expY-1] !== EMPTY && floorX+1-x < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expX + 2 < maze.length && (maze[expX+2][expY+1]!== EMPTY && floorX+1-x < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS))) {
+    if((expY - 2 > 0 && maze[expX-1][expY-2] === WALL && b1 && b3)                              //Upper left west
+        || (expY + 2 < maze[0].length && (maze[expX-1][expY+2] === WALL) && b1 && b4))          //Upper left north
+        return false;
+
+
+    if((expY - 2 > 0 && maze[expX+1][expY-2] === WALL && b2 && b3)                              //Upper right north
+        || (expY + 2 < maze[0].length && (maze[expX+1][expY+2] === WALL) && b2 && b4))          //Upper right east
+        return false;
+
+
+    if((expX - 2 > 0 && maze[expX-2][expY-1] === WALL && b1 && b3)                              //Lower right east
+        || (expX - 2 > 0 && (maze[expX-2][expY+1] === WALL && b1 && b4)))                       //Lower right south
+        return false;
+
+
+    if((expX + 2 < maze.length && maze[expX+2][expY-1] === WALL && b2 && b3)                    //Lower left south
+        || (expX + 2 < maze.length && (maze[expX+2][expY+1] === WALL && b2 && b4)))             //Lower left west
         return false;
 
 
