@@ -76,8 +76,10 @@ function getColor(id) {
     }
 }
 
+var io;
+
 function setupSockets(server) {
-    let io = sio.listen(server);
+    io = sio.listen(server);
     let display_sock = io.of('/display');
     let control_sock = io.of('/player');
     
@@ -112,6 +114,10 @@ function setupSockets(server) {
             console.log("player disconnected " + socket.id);
             delete players[socket.id];
         });
+
+        setTimeout(() => {
+            io.to(socket.id).emit('win');
+        }, 1000);
     });
 
     setInterval(() => {
@@ -169,7 +175,7 @@ function tick() {
                 }
             }
         }
-    }
+
         let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
         let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;
 
@@ -194,11 +200,38 @@ function tick() {
 }
 
 function playerCollision(currPlayer, players) {
+    var infectionHappened = false;
     for(let key in players) {
         if (currPlayer.chaser && !players[key].chaser && distance(currPlayer, players[key]) < 4 * PLAYER_RADIUS * PLAYER_RADIUS) {
             players[key].chaser = true;
+
+            infectionHappened = true;
         }
     }
+
+    if(infectionHappened) {
+        console.log('infection');
+        var nonChaserCount = 0;
+        var nonChaserId = null;
+        for(let key in players) {
+            var player = players[key];
+            
+            if(!player.chaser) {
+                nonChaserId = key;
+                nonChaserCount++;
+                if(nonChaserCount >= 2) {
+                    return;
+                }
+            }
+        }
+
+        if(nonChaserCount === 1) {
+            console.log(nonChaserId);
+            io.to(nonChaserId).emit('win');
+            gameStarted = false;
+        }
+    }
+
 }
 function distance(player1, player2) {
     return (player1.x - player2.x) * (player1.x - player2.x) + (player1.y - player2.y)*(player1.y - player2.y);

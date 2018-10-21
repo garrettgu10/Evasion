@@ -6,6 +6,10 @@ var color = "#000000";
 
 socket.on('color', function(c) {
     color = c;
+});
+
+socket.on('win', function() {
+    alert('you win!');
 })
 
 window.addEventListener("deviceorientation", (event) => {

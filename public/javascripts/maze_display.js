@@ -93,6 +93,7 @@ function draw_players(canvas, players){
     //draw players
     for(var key in players) {
         var player = players[key];
+        console.log(player);
         var x = player.x * blockWidth;
         var y = player.y * blockHeight;
         
