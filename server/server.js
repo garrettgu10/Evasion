@@ -136,7 +136,6 @@ function setupSockets(server) {
             velX:0, velY:0, 
             accX:0, accY:0,
             color: color,
-            chaser: isChaser(...spotToUse)
         };
 
         socket.emit('color', color);
