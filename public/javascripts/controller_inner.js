@@ -11,6 +11,11 @@ socket.on('win', function() {
     alert('you win!');
 })
 
+socket.on('reject', function(reason) {
+    socket.disconnect();
+    alert(reason);
+})
+
 window.addEventListener("deviceorientation", (event) => {
     if(!updateNeeded) return;
 

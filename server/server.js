@@ -41,7 +41,6 @@ function setup(app) {
     app.use('/new_game', function(req, res) {
         maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
         var emptySpots = getEmptySpots(maze);
-        let center_players = [];
 
         //place players in new empty spots
         for(var key in players) {
@@ -54,15 +53,27 @@ function setup(app) {
                 color: players[key].color,
                 //chaser: isChaser(...spotToUse)
             };
+        }
 
+        gameStarted = false;
+
+        res.json({status: 'ok'});
+    });
+
+    app.use('/get_maze', function (req, res) {
+       res.json(maze);
+    });
+
+    app.use('/start_game', function(req, res) {
+        let centerX = (BLOCKS / 2);
+        let centerY = (BLOCKS / 2);
+        let center_players = [];
+
+        for(var key in players) {
             center_players.push(players[key]);
         }
 
-        let centerX = (BLOCKS / 2);
-        let centerY = (BLOCKS / 2);
-
         function getDist(p) {
-            console.log(p.x, p.y, (p.x  - centerX) * (p.x - centerX) + (p.y - centerY) * (p.y - centerY));
             return (p.x  - centerX) * (p.x - centerX) + (p.y - centerY) * (p.y - centerY);
         }
 
@@ -72,10 +83,7 @@ function setup(app) {
             return dist1 - dist2;
         }
 
-        console.log(center_players);
-        console.log(centerX + " " + centerY);
         center_players.sort(cmp);
-        console.log(center_players);
 
         let num_chasers = Math.max(Math.floor(center_players.length * CHASER_RATIO), 1);
         for(let i = 0; i < center_players.length; i++){
@@ -86,16 +94,7 @@ function setup(app) {
                 center_players[i].chaser = false;
             }
         }
-         gameStarted = false;
 
-        res.json({status: 'ok'});
-    });
-
-    app.use('/get_maze', function (req, res) {
-       res.json(maze);
-    });
-
-    app.use('/start_game', function(req, res) {
         gameStarted = true;
         res.json({status: 'ok'})
     })
@@ -121,6 +120,11 @@ function setupSockets(server) {
     });
 
     control_sock.on('connection', function(socket) {
+        if(gameStarted) {
+            socket.emit('reject', "Game has already started, you can't join");
+            socket.disconnect();
+            return;
+        }
         console.log('new controller ' + socket.id);
         var spotToUse = emptySpots.pop();
 
@@ -190,8 +194,8 @@ function getEmptySpots(maze){
 function tick() {
     for(let key in players){
         currPlayer = players[key];
-        currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 500);
-        currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 500);
+        currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 250);
+        currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 250);
 
         if(!valid(currPlayer.x, currPlayer.y, maze, currPlayer)){
             let offset = [-1, 0, 1];

@@ -39,7 +39,6 @@ function draw_maze(canvas, maze){
     blockWidth = canvasWidth / Math.floor(width/2);
 
     context.lineWidth = WALL_WIDTH;
-    context.lineCap="round";
     
     //draw vertical walls
     //have even x, odd y
