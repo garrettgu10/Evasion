@@ -156,6 +156,20 @@ function tick() {
         currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 500);
         currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 500);
 
+        if(!valid(currPlayer.x, currPlayer.y, maze, currPlayer)){
+            let offset = [-1, 0, 1];
+            found = false;
+            for(let i = 0; i < offset.length && !found; i++){
+                for(let j = 0; j < offset.length && !found; j++){
+                    if(valid(currPlayer.x + offset[i] * PLAYER_RADIUS, currPlayer.y + offset[j] * PLAYER_RADIUS, maze, currPlayer)){
+                        currPlayer.x = currPlayer.x + offset[i] * PLAYER_RADIUS;
+                        currPlayer.y = currPlayer.y + offset[j] * PLAYER_RADIUS;
+                        found = true;
+                    }
+                }
+            }
+        }
+    }
         let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
         let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;
 
