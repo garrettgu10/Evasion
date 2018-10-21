@@ -32,11 +32,6 @@ var colorArray = ['#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
 '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
 '#E64D66', '#4DB380', '#99E6E6', '#6666FF'];
 
-//returns whether or not a block is a chaser block
-function isChaser(x, y) {
-    return (x >= BLOCKS/3) && (x < BLOCKS*2/3) && (y >= BLOCKS/3) && (y < BLOCKS*2/3);
-}
-
 function setup(app) {
     app.use('/new_game', function(req, res) {
         maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
@@ -51,7 +46,6 @@ function setup(app) {
                 velX:0, velY:0, 
                 accX:0, accY:0,
                 color: players[key].color,
-                //chaser: isChaser(...spotToUse)
             };
         }
 
