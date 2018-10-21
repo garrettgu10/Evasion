@@ -136,5 +136,4 @@ function requestNewGame() {
 
 updateMaze();
 
-//draw_maze(canvas, TEST_ARRAY);
-draw_players(playerCanvas, TEST_PLAYERS);
+document.getElementById('new-game-button').onclick = requestNewGame;

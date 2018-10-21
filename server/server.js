@@ -10,30 +10,67 @@ const PLAYER_RADIUS = 0.2;
 const RESTITUTION = 0.8;
 
 var mazeGen = require('./maze/RecursiveMazeGenerator');
+var sio = require('socket.io');
 var md5 = require('md5');
+
 var maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
 var emptySpots = getEmptySpots(maze);
 var players = {};
+var gameStarted = false;
+
+var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+'#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+'#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+'#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+'#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
+'#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+'#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
+'#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+'#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
+'#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
 function setup(app) {
     app.use('/new_game', function(req, res) {
         maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
         var emptySpots = getEmptySpots(maze);
-        players = {};
+        
+        //place players in new empty spots
+        for(var key in players) {
+            var spotToUse = emptySpots.pop();
+            players[key] = {
+                x: spotToUse[0] + 0.5, 
+                y: spotToUse[1] + 0.5, 
+                velX:0, velY:0, 
+                accX:0, accY:0,
+                color: players[key].color
+            }
+        }
+
+        gameStarted = false;
+
         res.json({status: 'ok'});
     });
 
     app.use('/get_maze', function (req, res) {
        res.json(maze);
     });
+
+    app.use('/start_game', function(req, res) {
+        gameStarted = true;
+        res.json({status: 'ok'})
+    })
 }
 
 function getColor(id) {
-    return '#'+md5(id).substring(0, 6);
+    if(colorArray.length === 0){ //out of colors, use md5
+        return '#'+md5(id).substring(0, 6);
+    }else{
+        return colorArray.pop();
+    }
 }
 
 function setupSockets(server) {
-    let io = require('socket.io').listen(server);
+    let io = sio.listen(server);
     let display_sock = io.of('/display');
     let control_sock = io.of('/player');
     
@@ -70,7 +107,9 @@ function setupSockets(server) {
     });
 
     setInterval(() => {
-        tick();
+        if(gameStarted){
+            tick();
+        }
         display_sock.emit('updatePlayers', players);
     }, UPDATE_INTERVAL);
 }
@@ -148,7 +187,7 @@ function valid(x, y, maze){
     if((maze[expX-1][expY] === WALL && x - floorX < PLAYER_RADIUS) || (maze[expX+1][expY] === WALL && floorX + 1 - x < PLAYER_RADIUS)) {
         return false;
     }
-
+    
     //Corners
     if((expY - 2 > 0 && maze[expX-1][expY-2] !== EMPTY && x-floorX < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expY + 2 < maze[0].length && (maze[expX-1][expY+2] !== EMPTY) && x-floorX < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS)) {
         return false;
@@ -164,7 +203,7 @@ function valid(x, y, maze){
 
     if((expX + 2 < maze.length && maze[expX+2][expY-1] !== EMPTY && floorX+1-x < PLAYER_RADIUS && y-floorY < PLAYER_RADIUS) || (expX + 2 < maze.length && (maze[expX+2][expY+1]!== EMPTY && floorX+1-x < PLAYER_RADIUS && floorY+1-y < PLAYER_RADIUS))) {
         return false;
-    }
+
 
     return true;
 }
