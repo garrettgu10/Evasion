@@ -122,7 +122,7 @@ function draw_players(canvas, players){
         numPlayers++;
     }
 
-    if(!shownStartButton && numPlayers > 3) {
+    if(!shownStartButton && numPlayers >= 3) {
         shownStartButton = true;
         document.getElementById('start-game-button').style.display = 'inline';
     }

@@ -58,16 +58,26 @@ function setup(app) {
             center_players.push(players[key]);
         }
 
-        let centerX = Math.floor(BLOCKS / 2);
-        let centerY = Math.floor(BLOCKS / 2);
+        let centerX = (BLOCKS / 2);
+        let centerY = (BLOCKS / 2);
+
+        function getDist(p) {
+            console.log(p.x, p.y, (p.x  - centerX) * (p.x - centerX) + (p.y - centerY) * (p.y - centerY));
+            return (p.x  - centerX) * (p.x - centerX) + (p.y - centerY) * (p.y - centerY);
+        }
+
         function cmp(p1, p2){
-            let dist1 = (p1.x  - centerX) * (p1.x - centerX) + (p1.y - centerY) * (p1.y - centerY);
-            let dist2 = (p2.x - centerX) * (p2.x - centerX) + (p2.y - centerY) + (p2.y - centerY);
+            let dist1 = getDist(p1);
+            let dist2 = getDist(p2);
             return dist1 - dist2;
         }
 
+        console.log(center_players);
+        console.log(centerX + " " + centerY);
         center_players.sort(cmp);
-        let num_chasers = Math.min(Math.floor(center_players.length * CHASER_RATIO), 1);
+        console.log(center_players);
+
+        let num_chasers = Math.max(Math.floor(center_players.length * CHASER_RATIO), 1);
         for(let i = 0; i < center_players.length; i++){
             if(i < num_chasers){
                 center_players[i].chaser = true;
