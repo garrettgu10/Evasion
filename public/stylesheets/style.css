@@ -1,5 +1,5 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 16px "Roboto", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -10,7 +10,7 @@ button {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 12px 25px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
