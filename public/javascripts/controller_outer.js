@@ -9,7 +9,12 @@ var requestFullscreen = function (ele) {
 	} else if (ele.msRequestFullscreen) {
 		ele.msRequestFullscreen();
 	} else {
-        document.getElementById('button').style.display = "none";
+        document.getElementById('info-div').style.display = "none";
+        iframe.style.position = "absolute"
+        iframe.style.top = 0;
+        iframe.style.left =0;
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
 	}
 };
 

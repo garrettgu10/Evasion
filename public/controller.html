@@ -3,10 +3,21 @@
     <head>
         <title>Evasion</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
     </head>
-    <body>
+    <body style="padding: 20px">
+        <div id="info-div">
+            <h1>Welcome.</h1>
+            <div>
+                In this game, your goal is to either pursue or to be pursued. <br />
+                You will tilt your mobile device in order to move the ball in the direction desired. <br />
+                If you think you are ready, hold your device in <b>landscape mode</b> and click on the button below.
+            </div>
+            <div style="height: 20px"></div>
+            <button id="button" style="font-size: 30px">Begin</button>
+        </div>
+        <br />
         <iframe frameborder="0" style="display:none" allowFullScreen="true" id="iframe" src="controller_inner.html"></iframe>
-        <button id="button" style="font-size: 30px">Begin</button>
         <script src="javascripts/nosleep.min.js"></script>
         <script src="javascripts/controller_outer.js"></script>
     </body>
