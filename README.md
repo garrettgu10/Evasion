@@ -4,8 +4,6 @@ HackTX project <br/>
 
 WEW QUARTERBROWN
 
-Random Test
-
 Think you have what it takes to beat Evasion?
 Sync your phones to the Evasion server to outfox your friends in an all-out multiplayer BATTLE - ROYALE!
 In a style reminiscent of the popular maze game Labyrinth, play as the TARGET to outmaneuvet your adversaries as they navigate through the maze, or take upon the role of the INFECTED and work together to nab the elusive TARGET before time runs out.
@@ -21,7 +19,7 @@ Players move around by tilting their phones in the direction they want to move. 
 
 
 **USELESS FORMAL JUNK** <br/>
-Evasion is the property of _CBRE_ and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #familyfriendly, #funforall, #learningJS, and #bestgame2018_october_20
+Evasion is the property of _CBRE_ and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #_familyfriendly_, #_funforall_, #_learningJS_, and #_bestgame2018_october_20_
 
 
 **RECENT UPDATES** <br/>
