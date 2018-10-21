@@ -14,7 +14,9 @@ var requestFullscreen = function (ele) {
 	}
 };
 
+var noSleep = new NoSleep();
 document.getElementById('button').onclick=() => {
+    noSleep.enable();
     iframe.style.display = "inline";
     requestFullscreen(iframe);
     setTimeout(() => {

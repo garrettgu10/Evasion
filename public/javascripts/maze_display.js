@@ -20,6 +20,8 @@ const PLAYER_MAX_X = 100;
 const PLAYER_MAX_Y = 100;
 const PLAYER_RADIUS = 10;
 
+var shownStartButton = false;
+
 const GRAY_COLOR = "rgba(0, 0, 0, 0.2)";
 const SOLID_GRAY = "#A0A0A0";
 const BLACK_COLOR = "#000000";
@@ -106,6 +108,10 @@ function draw_players(canvas, players){
         context.arc(x, y, rad, 0, 2*Math.PI);
         context.fill();
         if(player.chaser){
+            if(!shownStartButton){
+                shownStartButton = true;
+                document.getElementById('start-game-button').style.display = 'inline';
+            }
             context.stroke();
         }
 
@@ -136,6 +142,8 @@ function updateMaze() {
 }
 
 function requestNewGame() {
+    shownStartButton = false;
+    document.getElementById('start-game-button').style.display = 'none';
     fetch('/new_game').then(() => {
         updateMaze();
     })

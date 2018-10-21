@@ -159,15 +159,15 @@ function tick() {
         let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
         let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;
 
-        if(valid(nextX, nextY, maze)){
+        if(valid(nextX, nextY, maze, currPlayer)){
             currPlayer.x = nextX;
             currPlayer.y = nextY;
         }
-        else if(valid(currPlayer.x, nextY, maze)){
+        else if(valid(currPlayer.x, nextY, maze, currPlayer)){
             currPlayer.velX = -currPlayer.velX * RESTITUTION;
             currPlayer.y = nextY;
         }
-        else if(valid(nextX, currPlayer.y, maze)){
+        else if(valid(nextX, currPlayer.y, maze, currPlayer)){
             currPlayer.velY = -currPlayer.velY * RESTITUTION;
             currPlayer.x = nextX;
         }
@@ -178,7 +178,7 @@ function tick() {
     }
 }
 
-function valid(x, y, maze) {
+function valid(x, y, maze, player) {
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
 
@@ -194,7 +194,7 @@ function valid(x, y, maze) {
     var b4 = floorY + 1 - y < PLAYER_RADIUS;
 
     let comparison;
-    if (player.isChaser) {
+    if (!player.chaser) {
         comparison = GRAY;
     } else {
         comparison = EMPTY;
