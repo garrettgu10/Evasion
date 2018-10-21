@@ -1,7 +1,6 @@
 var socket = io('/player');
 
 var updateNeeded = true;
-var coordsDiv = document.getElementById('coords');
 var color = "#000000";
 
 socket.on('color', function(c) {
@@ -20,9 +19,6 @@ window.addEventListener("deviceorientation", (event) => {
     var {beta, gamma} = event;
     var accX = beta / 180 * 2;
     var accY = -gamma / 180 * 2;
-    
-    coordsDiv.innerHTML = JSON.stringify({accX, accY});
-
     updateCanvas(accX, accY);
 
     socket.emit('updateAcceleration', {accX: accX, accY: accY});
@@ -41,12 +37,11 @@ function updateCanvas(accX, accY) {
     var context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
     
-    context.lineWidth = 10;
+    context.lineWidth = 30;
     context.strokeStyle = color;
     
     context.beginPath();
     context.moveTo(center.x, center.y);
     context.lineTo(center.x + accX * fullLength, center.y + accY * fullLength);
     context.stroke();
-    console.log(center);
 }
