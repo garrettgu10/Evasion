@@ -9,7 +9,6 @@ var requestFullscreen = function (ele) {
 	} else if (ele.msRequestFullscreen) {
 		ele.msRequestFullscreen();
 	} else {
-        document.body.style.backgroundColor = "black";
         document.getElementById('button').style.display = "none";
 	}
 };
