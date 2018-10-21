@@ -156,6 +156,20 @@ function tick() {
         currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 500);
         currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 500);
 
+        if(!valid(currPlayer.x, currPlayer.y, maze, currPlayer)){
+            let offset = [-1, 0, 1];
+            found = false;
+            for(let i = 0; i < offset.length && !found; i++){
+                for(let j = 0; j < offset.length && !found; j++){
+                    if(valid(currPlayer.x + offset[i] * PLAYER_RADIUS, currPlayer.y + offset[j] * PLAYER_RADIUS, maze, currPlayer)){
+                        currPlayer.x = currPlayer.x + offset[i] * PLAYER_RADIUS;
+                        currPlayer.y = currPlayer.y + offset[j] * PLAYER_RADIUS;
+                        found = true;
+                    }
+                }
+            }
+        }
+    }
         let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
         let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;
 
@@ -178,7 +192,7 @@ function tick() {
         playerCollision(currPlayer, players);
     }
 }
-<<<<<<< HEAD
+
 function playerCollision(currPlayer, players) {
     for(let key in players) {
         if (currPlayer.chaser && !players[key].chaser && distance(currPlayer, players[key]) < 4 * PLAYER_RADIUS * PLAYER_RADIUS) {
@@ -190,10 +204,9 @@ function distance(player1, player2) {
     return (player1.x - player2.x) * (player1.x - player2.x) + (player1.y - player2.y)*(player1.y - player2.y);
 }
 function valid(x, y, maze) {
-=======
+
 
 function valid(x, y, maze, player) {
->>>>>>> f42f195b3276571b40bcf90d5a6074ad0277b076
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
 
