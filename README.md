@@ -6,7 +6,7 @@ WEW QUARTERBROWN
 
 Think you have what it takes to beat Evasion?
 Sync your phones to the Evasion server to outfox your friends in an all-out multiplayer BATTLE - ROYALE!
-In a style reminiscent of the popular maze game Labyrinth, play as the TARGET to outmaneuver your adversaries as they navigate through the maze, or take upon the role of the INFECTED and work together to nab the elusive TARGET before time runs out.
+In a style reminiscent of the popular maze game Labyrinth, play as the TARGET to outmaneuver your adversaries as they navigate through the maze, or take upon the role of the INFECTED and work together to nab the elusive TARGET before time runs out. <br\>
 <br/>
 
 
@@ -14,12 +14,12 @@ In a style reminiscent of the popular maze game Labyrinth, play as the TARGET to
 ## **GAMEPLAY** <br/>
 Sync phones to the server to start the game! The INFECTED are placed near the center. Everyone else will assume the role of TARGETS.
 The goal of the TARGET is to evade capture of all enemies with last-man standing, while the goal of the CATCHERS is to capture the TARGETS. When the INFECTED reach a TARGET, the TARGET turns into one of the INFECTED until there is only one TARGET left.
-Players move around by tilting their phones in the direction they want to move. Aiding the TARGETS will be several hidden passageways through walls that only TARGETS can traverse. 
+Players move around by tilting their phones in the direction they want to move. Aiding the TARGETS will be several hidden passageways through walls that only TARGETS can traverse. <br\>
 <br/>
 
 
 ## **USELESS FORMAL JUNK** <br/>
-Evasion is the property of _CBRE_ and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #_familyfriendly_, #_funforall_, #_learningJS_, and #_bestgame2018_october_20_
+Evasion is the property of _CBRE_ and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #_familyfriendly_, #_funforall_, #_learningJS_, and #_bestgame2018_october_20_ <br\>
 <br/>
 
 ## **RECENT UPDATES** <br/>
