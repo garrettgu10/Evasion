@@ -18,6 +18,7 @@ var md5 = require('md5');
 var maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
 var emptySpots = getEmptySpots(maze);
 var players = {};
+var socketHandlers = {};
 var gameStarted = false;
 
 var colorArray = ['#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
@@ -137,9 +138,7 @@ function setupSockets(server) {
             delete players[socket.id];
         });
 
-        setTimeout(() => {
-            io.to(socket.id).emit('win');
-        }, 1000);
+        socketHandlers[socket.id] = socket;
     });
 
     setInterval(() => {
@@ -247,8 +246,8 @@ function playerCollision(currPlayer, players) {
         }
 
         if(nonChaserCount === 1) {
-            console.log(nonChaserId);
-            io.to(nonChaserId).emit('win');
+            console.log("winner: " + nonChaserId);
+            socketHandlers[nonChaserId].emit('win');
             gameStarted = false;
         }
     }
