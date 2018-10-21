@@ -98,11 +98,18 @@ function draw_players(canvas, players){
         var rad = PLAYER_RADIUS;
         var color = player.color || "#000000";
 
+        //draw circle
         context.beginPath();
         context.fillStyle = color;
+        context.lineWidth = 3;
+        context.strokeStyle = 'red';
         context.arc(x, y, rad, 0, 2*Math.PI);
         context.fill();
+        if(player.chaser){
+            context.stroke();
+        }
 
+        //draw "arrow"
         context.lineWidth = 4;
         context.beginPath();
         context.strokeStyle=SOLID_GRAY;

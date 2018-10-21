@@ -2,6 +2,7 @@ const MAX_SPEED = 1;
 const MIN_SPEED = -1;
 const UPDATE_RATE = 30; //Milliseconds
 const MAZE_SIZE = 31;
+const BLOCKS = (MAZE_SIZE-1)/2;
 const WALL = 0;
 const GRAY = 1;
 const EMPTY = 2;
@@ -29,6 +30,11 @@ var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
 '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
 '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
+//returns whether or not a block is a chaser block
+function isChaser(x, y) {
+    return (x >= BLOCKS/3) && (x < BLOCKS*2/3) && (y >= BLOCKS/3) && (y < BLOCKS*2/3);
+}
+
 function setup(app) {
     app.use('/new_game', function(req, res) {
         maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
@@ -42,7 +48,8 @@ function setup(app) {
                 y: spotToUse[1] + 0.5, 
                 velX:0, velY:0, 
                 accX:0, accY:0,
-                color: players[key].color
+                color: players[key].color,
+                chaser: isChaser(...spotToUse)
             }
         }
 
@@ -89,7 +96,8 @@ function setupSockets(server) {
             y: spotToUse[1] + 0.5, 
             velX:0, velY:0, 
             accX:0, accY:0,
-            color: color
+            color: color,
+            chaser: isChaser(...spotToUse)
         };
 
         socket.emit('color', color);
@@ -218,6 +226,7 @@ function valid(x, y, maze){
     if((expX + 2 < maze.length && maze[expX+2][expY-1] === WALL && b2 && b3)                    //Lower left south
         || (expX + 2 < maze.length && (maze[expX+2][expY+1] === WALL && b2 && b4)))             //Lower left west
         return false;
+    }
 
 
     return true;
