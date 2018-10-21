@@ -19,7 +19,7 @@ Players move around by tilting their phones in the direction they want to move. 
 
 
 ## **USELESS FORMAL JUNK** <br/>
-Evasion is the property of _CBRE_ and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #_familyfriendly_, #_funforall_, #_learningJS_, and #_bestgame2018_october_20_ <br\>
+Evasion is the property of _CBRE_ and may not be copied, edited, or distributed without explicit written permission from the creators. Ages 8+. Relevant Hashtags include #_familyfriendly_, #_funforall_, #_learningJS_, and #_bestgame2018_october_20_ <br/>
 <br/>
 
 ## **RECENT UPDATES** <br/>
