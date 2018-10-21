@@ -3,16 +3,29 @@
     <head>
         <title>Evasion</title>
         <style>
+            body{
+                padding: 10px; 
+                font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+            }
+            .container {
+                max-width: 800px;
+                margin: auto;
+            }
             canvas {
                 position: absolute;
-                top: 50px;
-                left: 15px;
+                top: 0px;
+                left: 0px;
+            }
+            .wrapper {
+                position: relative;
+                width: 800px;
+                height: 800px;
             }
             button {
                 background-color: #4CAF50; /* Green */
                 border: none;
                 color: white;
-                margin-left: 10px;
+                margin-bottom: 10px;
                 padding: 7px 16px;
                 text-align: center;
                 text-decoration: none;
@@ -22,12 +35,17 @@
         </style>
     </head>
     <body>
-        <canvas id="maze_canvas" width = "800" height = "800"></canvas>
-        <canvas id="player_canvas" width = "800" height = "800"></canvas>
-        <button id="new-game-button">New Game</button>
-        <button style="display: none" id="start-game-button">Start Game</button> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-        <script src="javascripts/maze_display.js"></script>
-        <script src="javascripts/maze_socket.js"></script>
+        <div class="container">
+            <h1>Evasion</h1>
+            <button id="new-game-button">New Game</button>
+            <button style="display: none" id="start-game-button">Start Game</button> 
+            <div class="wrapper">
+                <canvas id="maze_canvas" width = "800" height = "800"></canvas>
+                <canvas id="player_canvas" width = "800" height = "800"></canvas>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+            <script src="javascripts/maze_display.js"></script>
+            <script src="javascripts/maze_socket.js"></script>
+        </div>
     </body>
 </html>
