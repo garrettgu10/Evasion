@@ -109,7 +109,7 @@ function tick(players, maze) {
         }
         else if(valid(nextX, currPlayer.y, maze)){
             currPlayer.velY = -currPlayer.velY * RESTITUTION;
-            currPlayer.x = 0;
+            currPlayer.x = nextX;
         }
         else{
             currPlayer.velX = -currPlayer.velX * RESTITUTION;
@@ -129,10 +129,10 @@ function valid(x, y, maze){
     if(expX >= maze.length || expY >= maze[0].length) return false;
 
     //If left side has a wall and goes across                      OR    right side has a wall and goes across
-    if((maze[expX][expY-1] === WALL && x - floorX < PLAYER_RADIUS) || (maze[expX][expY+1] === WALL && floorX + 1 - x < PLAYER_RADIUS)) {
+    if((maze[expX][expY-1] === WALL && y - floorY < PLAYER_RADIUS) || (maze[expX][expY+1] === WALL && floorY + 1 - y < PLAYER_RADIUS)) {
         return false;
     }
-    if((maze[expX-1][expY] === WALL && y - floorY < PLAYER_RADIUS) || (maze[expX+1][expY] === WALL && floorY + 1 - y < PLAYER_RADIUS)) {
+    if((maze[expX-1][expY] === WALL && x - floorX < PLAYER_RADIUS) || (maze[expX+1][expY] === WALL && floorX + 1 - x < PLAYER_RADIUS)) {
         return false;
     }
 
