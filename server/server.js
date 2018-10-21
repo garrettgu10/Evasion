@@ -19,7 +19,7 @@ var emptySpots = getEmptySpots(maze);
 var players = {};
 var gameStarted = false;
 
-var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+var colorArray = ['#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
 '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
 '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
 '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
@@ -28,7 +28,7 @@ var colorArray = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
 '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
 '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
 '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
-'#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+'#E64D66', '#4DB380', '#99E6E6', '#6666FF'];
 
 //returns whether or not a block is a chaser block
 function isChaser(x, y) {
@@ -178,7 +178,7 @@ function tick() {
         playerCollision(currPlayer, players);
     }
 }
-<<<<<<< HEAD
+
 function playerCollision(currPlayer, players) {
     for(let key in players) {
         if (currPlayer.chaser && !players[key].chaser && distance(currPlayer, players[key]) < 4 * PLAYER_RADIUS * PLAYER_RADIUS) {
@@ -189,11 +189,8 @@ function playerCollision(currPlayer, players) {
 function distance(player1, player2) {
     return (player1.x - player2.x) * (player1.x - player2.x) + (player1.y - player2.y)*(player1.y - player2.y);
 }
-function valid(x, y, maze) {
-=======
 
 function valid(x, y, maze, player) {
->>>>>>> f42f195b3276571b40bcf90d5a6074ad0277b076
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
 

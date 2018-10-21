@@ -18,7 +18,6 @@ const TEST_PLAYERS = {
 
 const PLAYER_MAX_X = 100;
 const PLAYER_MAX_Y = 100;
-const PLAYER_RADIUS = 10;
 
 var shownStartButton = false;
 
@@ -97,7 +96,7 @@ function draw_players(canvas, players){
         var x = player.x * blockWidth;
         var y = player.y * blockHeight;
         
-        var rad = PLAYER_RADIUS;
+        var rad = blockWidth * 0.2;
         var color = player.color || "#000000";
 
         //draw circle
