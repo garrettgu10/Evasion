@@ -38,6 +38,7 @@ function updateCanvas(accX, accY) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     context.lineWidth = 30;
+    context.lineCap="round";
     context.strokeStyle = color;
     
     context.beginPath();

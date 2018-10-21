@@ -39,6 +39,7 @@ function draw_maze(canvas, maze){
     blockWidth = canvasWidth / Math.floor(width/2);
 
     context.lineWidth = WALL_WIDTH;
+    context.lineCap="round";
     
     //draw vertical walls
     //have even x, odd y
@@ -105,6 +106,7 @@ function draw_players(canvas, players){
         context.beginPath();
         context.fillStyle = color;
         context.lineWidth = 3;
+        context.lineCap="round";
         context.strokeStyle = 'red';
         context.arc(x, y, rad, 0, 2*Math.PI);
         context.fill();
