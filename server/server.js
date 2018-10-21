@@ -8,7 +8,8 @@ const GRAY = 1;
 const EMPTY = 2;
 const UPDATE_INTERVAL = 30;
 const PLAYER_RADIUS = 0.2;
-const RESTITUTION = 0.8;
+const RESTITUTION = 0.6;
+const CHASER_RATIO = 0.4;
 
 var mazeGen = require('./maze/RecursiveMazeGenerator');
 var sio = require('socket.io');
@@ -39,7 +40,8 @@ function setup(app) {
     app.use('/new_game', function(req, res) {
         maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
         var emptySpots = getEmptySpots(maze);
-        
+        let center_players = [];
+
         //place players in new empty spots
         for(var key in players) {
             var spotToUse = emptySpots.pop();
@@ -49,11 +51,31 @@ function setup(app) {
                 velX:0, velY:0, 
                 accX:0, accY:0,
                 color: players[key].color,
-                chaser: isChaser(...spotToUse)
-            }
+                //chaser: isChaser(...spotToUse)
+            };
+
+            center_players.push(players[key]);
         }
 
-        gameStarted = false;
+        let centerX = Math.floor(BLOCKS / 2);
+        let centerY = Math.floor(BLOCKS / 2);
+        function cmp(p1, p2){
+            let dist1 = (p1.x  - centerX) * (p1.x - centerX) + (p1.y - centerY) * (p1.y - centerY);
+            let dist2 = (p2.x - centerX) * (p2.x - centerX) + (p2.y - centerY) + (p2.y - centerY);
+            return dist1 - dist2;
+        }
+
+        center_players.sort(cmp);
+        let num_chasers = Math.min(Math.floor(center_players.length * CHASER_RATIO), 1);
+        for(let i = 0; i < center_players.length; i++){
+            if(i < num_chasers){
+                center_players[i].chaser = true;
+            }
+            else{
+                center_players[i].chaser = false;
+            }
+        }
+         gameStarted = false;
 
         res.json({status: 'ok'});
     });
@@ -204,7 +226,6 @@ function playerCollision(currPlayer, players) {
     for(let key in players) {
         if (currPlayer.chaser && !players[key].chaser && distance(currPlayer, players[key]) < 4 * PLAYER_RADIUS * PLAYER_RADIUS) {
             players[key].chaser = true;
-
             infectionHappened = true;
         }
     }

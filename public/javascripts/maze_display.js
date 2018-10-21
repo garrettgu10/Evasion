@@ -91,6 +91,7 @@ function draw_players(canvas, players){
     var canvasHeight = canvas.height;
     var canvasWidth = canvas.width;
     //draw players
+    var numPlayers = 0;
     for(var key in players) {
         var player = players[key];
         console.log(player);
@@ -108,10 +109,6 @@ function draw_players(canvas, players){
         context.arc(x, y, rad, 0, 2*Math.PI);
         context.fill();
         if(player.chaser){
-            if(!shownStartButton){
-                shownStartButton = true;
-                document.getElementById('start-game-button').style.display = 'inline';
-            }
             context.stroke();
         }
 
@@ -122,6 +119,12 @@ function draw_players(canvas, players){
         context.moveTo(x, y);
         context.lineTo(x + player.accX * blockWidth, y + player.accY * blockWidth);
         context.stroke();
+        numPlayers++;
+    }
+
+    if(!shownStartButton && numPlayers > 3) {
+        shownStartButton = true;
+        document.getElementById('start-game-button').style.display = 'inline';
     }
 }
 
