@@ -159,15 +159,15 @@ function tick() {
         let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
         let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;
 
-        if(valid(nextX, nextY, maze)){
+        if(valid(nextX, nextY, maze, currPlayer)){
             currPlayer.x = nextX;
             currPlayer.y = nextY;
         }
-        else if(valid(currPlayer.x, nextY, maze)){
+        else if(valid(currPlayer.x, nextY, maze, currPlayer)){
             currPlayer.velX = -currPlayer.velX * RESTITUTION;
             currPlayer.y = nextY;
         }
-        else if(valid(nextX, currPlayer.y, maze)){
+        else if(valid(nextX, currPlayer.y, maze, currPlayer)){
             currPlayer.velY = -currPlayer.velY * RESTITUTION;
             currPlayer.x = nextX;
         }
@@ -178,6 +178,7 @@ function tick() {
         playerCollision(currPlayer, players);
     }
 }
+<<<<<<< HEAD
 function playerCollision(currPlayer, players) {
     for(let key in players) {
         if (currPlayer.chaser && !players[key].chaser && distance(currPlayer, players[key]) < 4 * PLAYER_RADIUS * PLAYER_RADIUS) {
@@ -189,6 +190,10 @@ function distance(player1, player2) {
     return (player1.x - player2.x) * (player1.x - player2.x) + (player1.y - player2.y)*(player1.y - player2.y);
 }
 function valid(x, y, maze) {
+=======
+
+function valid(x, y, maze, player) {
+>>>>>>> f42f195b3276571b40bcf90d5a6074ad0277b076
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
 
@@ -204,7 +209,7 @@ function valid(x, y, maze) {
     var b4 = floorY + 1 - y < PLAYER_RADIUS;
 
     let comparison;
-    if (player.isChaser) {
+    if (!player.chaser) {
         comparison = GRAY;
     } else {
         comparison = EMPTY;
