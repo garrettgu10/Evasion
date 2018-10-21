@@ -178,26 +178,32 @@ function tick() {
     }
 }
 
-function valid(x, y, maze){
+function valid(x, y, maze) {
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
 
     let expX = floorX * 2 + 1;
     let expY = floorY * 2 + 1;
 
-    if(expX < 0 || expY < 0) return false;
-    if(expX >= maze.length || expY >= maze[0].length) return false;
+    if (expX < 0 || expY < 0) return false;
+    if (expX >= maze.length || expY >= maze[0].length) return false;
 
     var b1 = x - floorX < PLAYER_RADIUS;
     var b2 = floorX + 1 - x < PLAYER_RADIUS;
     var b3 = y - floorY < PLAYER_RADIUS;
     var b4 = floorY + 1 - y < PLAYER_RADIUS;
 
+    let comparison;
+    if (player.isChaser) {
+        comparison = GRAY;
+    } else {
+        comparison = EMPTY;
+    }
     //If left side has a wall and goes across                      OR    right side has a wall and goes across
-    if((maze[expX][expY-1] === WALL && b3) || (maze[expX][expY+1] === WALL && b4)) {
+    if ((maze[expX][expY - 1] < comparison && b3) || (maze[expX][expY + 1] < comparison && b4)) {
         return false;
     }
-    if((maze[expX-1][expY] === WALL && b1) || (maze[expX+1][expY] === WALL && b2)) {
+    if ((maze[expX - 1][expY] < comparison && b1) || (maze[expX + 1][expY] < comparison && b2)) {
         return false;
     }
 
@@ -208,23 +214,24 @@ function valid(x, y, maze){
     //    _  u  _
     //     |   |
 
-    if((expY - 2 > 0 && maze[expX-1][expY-2] === WALL && b1 && b3)                              //Upper left west
-        || (expY + 2 < maze[0].length && (maze[expX-1][expY+2] === WALL) && b1 && b4))          //Upper left north
+    if ((expY - 2 > 0 && maze[expX - 1][expY - 2] < comparison && b1 && b3)                              //Upper left west
+        || (expY + 2 < maze[0].length && maze[expX - 1][expY + 2] < comparison && b1 && b4)) {         //Upper left north
         return false;
+    }
 
 
-    if((expY - 2 > 0 && maze[expX+1][expY-2] === WALL && b2 && b3)                              //Upper right north
-        || (expY + 2 < maze[0].length && (maze[expX+1][expY+2] === WALL) && b2 && b4))          //Upper right east
+    if ((expY - 2 > 0 && maze[expX + 1][expY - 2] < comparison && b2 && b3)                              //Upper right north
+        || (expY + 2 < maze[0].length && maze[expX + 1][expY + 2] < comparison && b2 && b4)) {         //Upper right east
         return false;
+    }
 
-
-    if((expX - 2 > 0 && maze[expX-2][expY-1] === WALL && b1 && b3)                              //Lower right east
-        || (expX - 2 > 0 && (maze[expX-2][expY+1] === WALL && b1 && b4)))                       //Lower right south
+    if ((expX - 2 > 0 && maze[expX - 2][expY - 1] < comparison && b1 && b3)                              //Lower right east
+        || (expX - 2 > 0 && maze[expX - 2][expY + 1] < comparison && b1 && b4)) {     //Lower right south
         return false;
+    }
 
-
-    if((expX + 2 < maze.length && maze[expX+2][expY-1] === WALL && b2 && b3)                    //Lower left south
-        || (expX + 2 < maze.length && (maze[expX+2][expY+1] === WALL && b2 && b4)))             //Lower left west
+    if((expX + 2 < maze.length && maze[expX+2][expY-1] < comparison && b2 && b3)                    //Lower left south
+        || (expX + 2 < maze.length && maze[expX+2][expY+1] < comparison && b2 && b4)) {             //Lower left west
         return false;
     }
 
