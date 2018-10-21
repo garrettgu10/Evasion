@@ -10,6 +10,7 @@ const PLAYER_RADIUS = 0.2;
 const RESTITUTION = 0.8;
 
 var mazeGen = require('./maze/RecursiveMazeGenerator');
+var md5 = require('md5');
 var maze = mazeGen(MAZE_SIZE, MAZE_SIZE);
 var emptySpots = getEmptySpots(maze);
 var players = {};
@@ -27,6 +28,10 @@ function setup(app) {
     });
 }
 
+function getColor(id) {
+    return '#'+md5(id).substring(0, 6);
+}
+
 function setupSockets(server) {
     let io = require('socket.io').listen(server);
     let display_sock = io.of('/display');
@@ -40,12 +45,17 @@ function setupSockets(server) {
         console.log('new controller ' + socket.id);
         var spotToUse = emptySpots.pop();
 
+        var color = getColor(socket.id);
+
         players[socket.id] = {
             x: spotToUse[0] + 0.5, 
             y: spotToUse[1] + 0.5, 
             velX:0, velY:0, 
-            accX:0, accY:0
+            accX:0, accY:0,
+            color: color
         };
+
+        socket.emit('color', color);
 
         socket.on('updateAcceleration', function(obj) {
             var {accX, accY} = obj;
@@ -60,6 +70,7 @@ function setupSockets(server) {
     });
 
     setInterval(() => {
+        tick();
         display_sock.emit('updatePlayers', players);
     }, UPDATE_INTERVAL);
 }
@@ -92,11 +103,11 @@ function getEmptySpots(maze){
     return emptySpots;
 }
 
-function tick(players, maze) {
+function tick() {
     for(let key in players){
         currPlayer = players[key];
-        currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 1000);
-        currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 1000);
+        currPlayer.velX = boundSpeed(currPlayer.velX + currPlayer.accX * UPDATE_RATE / 500);
+        currPlayer.velY = boundSpeed(currPlayer.velY + currPlayer.accY * UPDATE_RATE / 500);
 
         let nextX = currPlayer.x + currPlayer.velX * UPDATE_RATE / 1000;
         let nextY = currPlayer.y + currPlayer.velY * UPDATE_RATE / 1000;

@@ -1,9 +1,13 @@
 var socket = io('/player');
 
-socket.emit('updateAcceleration', {accX: 2, accY: 2});
-
 var updateNeeded = true;
 var coordsDiv = document.getElementById('coords');
+var color = "#000000";
+
+socket.on('color', function(c) {
+    color = c;
+})
+
 window.addEventListener("deviceorientation", (event) => {
     if(!updateNeeded) return;
 
@@ -21,7 +25,7 @@ window.addEventListener("deviceorientation", (event) => {
 
     setTimeout(() => {
         updateNeeded = true;
-    }, 30);
+    }, 50);
 })
 
 var canvas = document.getElementById('canvas');
@@ -34,7 +38,7 @@ function updateCanvas(accX, accY) {
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     context.lineWidth = 10;
-    context.strokeStyle = "#000000";
+    context.strokeStyle = color;
     
     context.beginPath();
     context.moveTo(center.x, center.y);
