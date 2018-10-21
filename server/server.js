@@ -1,7 +1,7 @@
 const MAX_SPEED = 1;
 const MIN_SPEED = -1;
 const UPDATE_RATE = 30; //Milliseconds
-const MAZE_SIZE = 31;
+const MAZE_SIZE = process.env.SIZE || 31;
 const BLOCKS = (MAZE_SIZE-1)/2;
 const WALL = 0;
 const GRAY = 1;
