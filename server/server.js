@@ -175,9 +175,19 @@ function tick() {
             currPlayer.velX = -currPlayer.velX * RESTITUTION;
             currPlayer.velY = -currPlayer.velY * RESTITUTION;
         }
+        playerCollision(currPlayer, players);
     }
 }
-
+function playerCollision(currPlayer, players) {
+    for(let key in players) {
+        if (currPlayer.chaser && !players[key].chaser && distance(currPlayer, players[key]) < 4 * PLAYER_RADIUS * PLAYER_RADIUS) {
+            players[key].chaser = true;
+        }
+    }
+}
+function distance(player1, player2) {
+    return (player1.x - player2.x) * (player1.x - player2.x) + (player1.y - player2.y)*(player1.y - player2.y);
+}
 function valid(x, y, maze) {
     let floorX = Math.floor(x);
     let floorY = Math.floor(y);
